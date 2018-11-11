@@ -1,9 +1,12 @@
 #pragma once
 
-#include <jsonrpccpp/client/connectors/httpclient.h>
 #include <iostream>
-#include <libdevcore/Worker.h>
+
 #include "jsonrpc_getwork.h"
+#include <jsonrpccpp/client/connectors/httpclient.h>
+
+#include <libdevcore/Worker.h>
+
 #include "../PoolClient.h"
 
 using namespace std;
@@ -13,31 +16,30 @@ using namespace eth;
 class EthGetworkClient : public PoolClient, Worker
 {
 public:
-	EthGetworkClient(unsigned farmRecheckPeriod, bool submitHashrate);
-	~EthGetworkClient();
+    EthGetworkClient(unsigned farmRecheckPeriod, bool submitHashrate);
+    ~EthGetworkClient();
 
-	void connect() override;
-	void disconnect() override;
+    void connect() override;
+    void disconnect() override;
 
-	bool isConnected() override { return m_connected; }
-	bool isPendingState() override { return false; }
+    bool isConnected() override { return m_connected; }
+    bool isPendingState() override { return false; }
 
-	string ActiveEndPoint() override { return ""; };
+    string ActiveEndPoint() override { return ""; };
 
-	void submitHashrate(string const & rate) override;
-	void submitSolution(Solution solution) override;
+    void submitHashrate(string const& rate) override;
+    void submitSolution(const Solution& solution) override;
 
 private:
-	void workLoop() override;
-	unsigned m_farmRecheckPeriod = 500;
+    void workLoop() override;
+    unsigned m_farmRecheckPeriod = 500;
 
-	string m_currentHashrateToSubmit = "";
+    string m_currentHashrateToSubmit = "";
 
-	bool m_justConnected = false;
-	h256 m_client_id;
-	JsonrpcGetwork *p_client;
-	WorkPackage m_prevWorkPackage;
+    h256 m_client_id;
+    JsonrpcGetwork* p_client = nullptr;
+    WorkPackage m_prevWorkPackage;
 
-	// Hashrate submission is optional
-	bool m_submit_hashrate;
+    // Hashrate submission is optional
+    bool m_submit_hashrate;
 };

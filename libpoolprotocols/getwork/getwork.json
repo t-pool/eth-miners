@@ -1,0 +1,5 @@
+[
+	{ "name": "mib_getWork", "params": [], "order": [], "returns": []},
+	{ "name": "mib_submitWork", "params": ["", "", ""], "order": [], "returns": true},
+	{ "name": "mib_submitHashrate", "params": ["", ""], "order": [], "returns": true}
+]
